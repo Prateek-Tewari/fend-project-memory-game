@@ -1,6 +1,16 @@
 /*
  * Create a list that holds all of your cards
  */
+ let cardList=document.querySelectorAll('.card');
+ let cardArray;
+ function arrayReturn(){
+		for (let i=0;i<cardList.length;i++){
+		cardArray=cardList[i];
+		console.log(cardArray);
+}
+return cardArray;
+ };
+arrayReturn();
 
 
 /*
@@ -10,6 +20,19 @@
  *   - add each card's HTML to the page
  */
 
+shuffle(cardArray); 
+document.write(cardArray[0].innerHTML);
+
+function createUi()
+{
+	let myNode = document.querySelector('.deck');
+while (myNode.firstChild) {
+    myNode.removeChild(myNode.firstChild);
+}
+	
+myNode.append(document.write(cardList.innerHTML));	
+};
+ createUi();
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
