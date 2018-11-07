@@ -22,13 +22,6 @@ console.log(cardArray);
 *   - add each card's HTML to the page
 */
 
-function createUi() {
-  while (myNode.firstChild) {
-    myNode.removeChild(myNode.firstChild);
-  }
-}
-createUi();
-console.log(myNode);
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
   var currentIndex = array.length,
@@ -48,12 +41,22 @@ function shuffle(array) {
 shuffle(cardArray);
 document.write(cardArray[3]);
 //var node = document.createElement("LI"); // Create a <li> node
+function createUi() {
+  while (myNode.firstChild) {
+    myNode.removeChild(myNode.firstChild);
+  }
+}
+createUi();
+console.log(myNode);
 console.log(Array.isArray(cardArray));
 cardArray.map(function() {
-  myNode.innerHTML = cardArray;
+  if (myNode) {
+    myNode.innerHTML = cardArray.join(" ");
+  }
   return myNode;
 });
-console.log(`My Node second console ${myNode}`);
+console.log(`My Node second console ${myNode.innerHTML}`);
+
 /*
 * set up the event listener for a card. If a card is clicked:
 *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -64,4 +67,3 @@ console.log(`My Node second console ${myNode}`);
 *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
 *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
 */
-`
