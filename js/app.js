@@ -4,6 +4,9 @@
 let cardList = Array.from(document.querySelectorAll(".deck li"));
 let myNode = document.querySelector(".deck");
 let movesMade=0;
+let timerOff=true;
+let timeTracker=0;
+let timerId;
 
 /*
 * Display the cards on the page
@@ -62,6 +65,10 @@ function changeClass(clickedCard){
 myNode.addEventListener('click',event=>{
 	let clickedCard=event.target;
 	if(clickedCard.classList.contains('card') && !clickedCard.classList.contains('match') && cardsArray.length<2 && !cardsArray.includes(clickedCard)){
+		if(timerOff){
+			startTimer();
+			timerOff=false;
+		}
 		console.log("A card was clicked.");
 		changeClass(clickedCard);
 		addToCardsArray(clickedCard);
@@ -119,6 +126,66 @@ function removeStar(){
 			star.removeChild(stars[1]);
 		}		
 	}
+	
+function startTimer(){
+		timerId=setInterval(()=>{
+		timeTracker++;
+		showTime();
+		console.log(timeTracker);
+	},1000);
+}
+function showTime(){
+let timer=document.querySelector(".timer");
+console.log(timer);
+let minutes=Math.floor(timeTracker/60);
+let seconds=timeTracker%60;
+if(seconds<10){
+	timer.innerHTML=`${minutes}:0${seconds}`;
+	
+}
+else{
+	timer.innerHTML=`${minutes}:${seconds}`;
+	$("#exampleModal").modal("show");
+}
+dataToModal();
+}
+function stopTimer(){
+	clearInterval(timerId)
+}
+function resetBoard(){
+	resetTimerAndTracker();
+}
+function resetTimerAndTracker(){
+stopTimer();
+timerOff=true;
+timeTracker=0;
+showTime();
+}
+function resetMoves(){
+	movesMade=0;
+	document.querySelector('.moves').innerHTML=movesMade;
+}
+function resetRating(){
+	if(movesMade===12){	
+		starsEarned.innerHTML=`Stars:2`;	
+		}
+		if (movesMade===20){
+			starsEarned.innerHTML=`Stars:1`;
+		}
+}
 /*    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
 */
-
+function dataToModal(){
+	let timeLapsed=document.querySelector('#timeLapsed');
+	let starsEarned=document.querySelector('#starsEarned');
+	let turnsTaken=document.querySelector('#turnsTaken');
+	timeLapsed.innerHTML=`Time:${document.querySelector('.timer').innerHTML}`;
+		
+	turnsTaken.innerHTML=`Moves:${document.querySelector('.moves').innerHTML}`;
+	
+}
+document.querySelector('#playAgain').addEventListener('click',()=>{
+	//resetBoard();
+	console.log(shuffledDeck);
+});
+//$("#exampleModal").modal("show");
